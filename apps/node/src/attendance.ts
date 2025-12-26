@@ -4,7 +4,11 @@ import { attendance, auth, getBinding, signIn } from '@skland-x/core'
 import { createSender } from 'statocysts'
 
 interface Options {
-  notificationUrls: string | string[]
+  notificationUrls?: string | string[]
+}
+
+function toArray<T>(value: T | T[]): T[] {
+  return Array.isArray(value) ? value : [value]
 }
 
 function createCombinePushMessage(options: Options) {
@@ -19,7 +23,7 @@ function createCombinePushMessage(options: Options) {
   const push = async () => {
     const title = `【森空岛每日签到】`
     const content = messages.join('\n\n')
-    const urls = Array.isArray(options.notificationUrls) ? options.notificationUrls : [options.notificationUrls]
+    const urls = options.notificationUrls ? toArray(options.notificationUrls) : []
     const sender = createSender(urls)
 
     await sender.send(title, content)
