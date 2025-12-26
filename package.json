@@ -8,12 +8,21 @@
   "author": "",
   "license": "MIT",
   "scripts": {
+    "build": "nitro build",
+    "dev": "nitro dev",
+    "preview": "node .output/server/index.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
+  "dependencies": {
+    "skland-kit": "catalog:lib",
+    "statocysts": "catalog:lib"
+  },
   "devDependencies": {
-    "@antfu/eslint-config": "catalog:",
-    "eslint": "catalog:",
-    "typescript": "catalog:"
+    "@antfu/eslint-config": "catalog:dev",
+    "eslint": "catalog:dev",
+    "nitro": "catalog:dev",
+    "rolldown": "catalog:build",
+    "typescript": "catalog:dev"
   }
 }
