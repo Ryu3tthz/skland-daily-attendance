@@ -12,18 +12,20 @@ export default defineTask<'success' | 'failed'>({
   async run() {
     const config = useRuntimeConfig()
 
-    const tokens = config.app.SKLAND_TOKEN
+    const tokens = config.tokens.split(',')
     if (tokens.length === 0) {
       return { result: 'success' }
     }
 
+    const notificationUrls = config.notificationUrls ? config.notificationUrls.split(',') : []
+
     const messageCollector = createMessageCollector({
-      notificationUrls: config.app.NOTIFICATION_URLS,
+      notificationUrls,
     })
 
     messageCollector.log('## 明日方舟签到')
 
-    const maxRetries = config.app.MAX_RETRIES
+    const maxRetries = Number(config.maxRetries)
 
     const results: AttendanceResult[] = []
 
