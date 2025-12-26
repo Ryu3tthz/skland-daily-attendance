@@ -1,11 +1,10 @@
 {
-  "name": "skland-x",
+  "name": "skland-daily-attendance",
   "type": "module",
   "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@10.26.2",
-  "description": "",
-  "author": "",
+  "description": "森空岛每日签到",
   "license": "MIT",
   "scripts": {
     "build": "nitro build",
