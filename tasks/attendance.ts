@@ -46,6 +46,8 @@ const attendanceContext = createContext<AttendanceContext>({
 // Export composable function for accessing context
 const useAttendanceContext = attendanceContext.use
 
+const ATTENDANCE_AVAILABLE_APPCODE = ['arknights', 'endfield']
+
 async function processAccount(
   token: string,
   accountNumber: number,
@@ -71,7 +73,7 @@ async function processAccount(
   await client.signIn(code)
 
   const { list } = await client.collections.player.getBinding()
-  const characterList = list.filter(i => i.appCode === 'arknights').flatMap(i => i.bindingList)
+  const characterList = list.filter(i => ATTENDANCE_AVAILABLE_APPCODE.includes(i.appCode)).flatMap(i => i.bindingList)
 
   stats.characters.total += characterList.length
 
@@ -136,7 +138,7 @@ export default defineTask<'success' | 'failed'>({
 
     const storage = useStorage()
 
-    messageCollector.collect('## 明日方舟签到')
+    messageCollector.collect('## 森空岛每日签到')
 
     const maxRetries = Number(config.maxRetries)
 
@@ -209,7 +211,7 @@ export default defineTask<'success' | 'failed'>({
     if (stats.characters.failed > 0) {
       messageCollector.collect(`  • 签到失败: ${stats.characters.failed}`, { isError: true })
     }
-    
+
     if (stats.accounts.successful > 0 || stats.accounts.failed > 0)
       await messageCollector.push()
 
