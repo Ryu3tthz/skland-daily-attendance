@@ -13,23 +13,30 @@ export function formatGameName(appCode: string): string {
 
 export function formatCharacterName(character: AppBindingPlayer, appName?: string) {
   const gamePrefix = appName ? `【${appName}】` : ''
-  return `${gamePrefix}${formatChannelName(character.channelMasterId)}角色${formatPrivacyName(character.nickName)}`
+  return `${gamePrefix}${formatChannelName(character.channelMasterId)}角色${formatPrivacyName(character)}`
 }
 
 export function formatChannelName(channelMasterId: string): string {
   return Number(channelMasterId) - 1 ? 'B 服' : '官服'
 }
 
-export function formatPrivacyName(nickName: string) {
+export function formatPrivacyName(character: AppBindingPlayer) {
+  // 终末地的昵称在 defaultRole 里取
+  if (character.gameId === 3 && character.defaultRole) return character.defaultRole.nickname
+
+  const nickName = character.nickName
   const [name, number] = nickName.split('#')
   if (!name)
-    throw new Error('Unexpected Error: nickName is not valid')
+    throw new Error('Unexpected Error: 明日方舟 nickName 格式不正确')
 
+  return `${maskNickname(name)}#${number}`
+}
+
+function maskNickname(name: string) {
   if (name.length <= 1)
-    return nickName
+    return "*"
 
   const firstChar = name[0]
   const stars = '*'.repeat(name.length - 1)
-
-  return `${firstChar}${stars}#${number}`
+  return `${firstChar}${stars}`
 }
