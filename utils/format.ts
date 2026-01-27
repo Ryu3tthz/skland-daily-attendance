@@ -18,8 +18,8 @@ export function formatCharacterName(character: AppBindingPlayer, appName?: strin
 
 export function formatPrivacyName(character: AppBindingPlayer) {
   // 终末地的昵称在 defaultRole 里取
-  if (character.gameId === 3 && character.defaultRole)
-    return `${maskNickname(character.defaultRole.nickname)} lv.${character.defaultRole.level}`
+  if (character.gameId === 3)
+    return `${maskNickname(character.defaultRole?.nickname || '')} lv.${character.defaultRole?.level || 0}`
 
   const nickName = character.nickName
   const [name, number] = nickName.split('#')
